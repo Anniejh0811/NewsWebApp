@@ -73,14 +73,21 @@ prettyPrint($arr5);
 
 // print_r($count);
 
+$query4 = "SHOW COLUMNS FROM collection_table";
+$resultColumns = mysqli_query($conn,$query4);
+$arrayColumnName = array();
+while($row = mysqli_fetch_array($resultColumns)){
+    $arrayColumnName[] = $row['Field'];
+    // echo $row['Field']."<br>";
+}
 
 // $countArr = array();
 for ($x = 1; $x <= $collectionNum; $x++) { 
     // echo $x;
     $counter = "
     SELECT count(*) as total FROM collection_table 
-    WHERE Collection".$x."=1;";
-    // echo $counter;
+    WHERE ".$arrayColumnName[$x]."=1;";
+    // echo $arrayColumnName[$x];
     $result10 = mysqli_query($conn, $counter);
     $row1 = mysqli_fetch_assoc($result10);
     $count = $row1['total'];
@@ -96,9 +103,11 @@ for ($x = 1; $x <= $collectionNum; $x++) {
 // var_dump($_POST);
 
 
+
+prettyPrint($arrayColumnName);
     
 
-// print_r($arr10);
+print_r($arr10);
 
 // prettyPrint($countArr);
 $limit = 0;
@@ -114,7 +123,7 @@ require_once("app.php");
 <div style="overflow:scroll;" class="flexBox">
     <?php for ($x = 0; $x < $collectionNum; $x++) {  ?>
         <div>
-        <div onclick="collectionPg(this.id)" id="Collection<?=intVal($x)+1?>" class="collCont">
+        <div onclick="collectionPg(this.id)" id="<?=$arrayColumnName[intVal($x)+1]?>" class="collCont">
         
         <?php if(intVal($arr10[$x]) <= 4){ 
         
@@ -134,9 +143,9 @@ require_once("app.php");
                         break;
 
                     } ?>
-                    
-                    <?php if($arr5[$i]['Collection'.(intVal($x)+1)] =='1'){?>
-                     
+                   
+                    <?php  //if($arr5[$i]['Collection'.(intVal($x)+1)] =='1'){?>
+                    <?php if($arr5[$i][$arrayColumnName[intVal($x)+1]] =='1'){?>
                         <img class="collImg" src="<?=$arr5[$i]['pic']?>" >
                         
                         <?php $w++;?>
@@ -145,7 +154,8 @@ require_once("app.php");
             <?php } ?>
         </div>
         <div >
-            <span class="collTitle">Collection <?=intVal($x)+1?></span>
+            <span class="collTitle"><?=$arrayColumnName[intVal($x)+1]?></span>
+  
         </div>
         </div>
     <?php } ?>
@@ -168,7 +178,7 @@ require_once("app.php");
 <!-- The Modal -->
 <div id="modal" class="modal">
 
-  <!-- Modal content -->
+  <!-- Modal content -->    
   <div class="modal-content">
     <div style="padding:16px; border-bottom: 1px solid #888">
         <span>Add Collection</span>

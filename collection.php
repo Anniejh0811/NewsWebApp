@@ -11,8 +11,33 @@ function prettyPrint($a) {
   echo "</pre>";
 }
 
+$deleteKey = $_POST['deleteInput'];
+$collectionId = $_GET['collId'];
+
+// $queryDelete = "ALTER TABLE collection_table
+// DROP COLUMN"+"$collectionId"+"";";
+
+if(isset($deleteKey)){
+    $queryDelete = "
+    ALTER TABLE collection_table DROP COLUMN ".$collectionId."
+    ";
+    $resultDelete = mysqli_query($conn,$queryDelete);
+    echo "<script> location.href='saved.php'; </script>";
+}
+
+echo $queryDelete;
+
+// prettyPrint($_GET['new']);
 
 
+
+if(!empty($_GET['new'])){
+    foreach($_GET['new'] as $count => $id){
+        $query2 = "UPDATE collection_table SET "."$collectionId"." = 1 WHERE articleIdColl ="."$id";
+        $result2 = mysqli_query($conn,$query2);
+        // echo $query2;
+    }
+}
 
 $sql = "
 SELECT * FROM newsarticle
@@ -27,7 +52,7 @@ while ($row1 = mysqli_fetch_assoc($result)) {
 $arr4[] = $row1;
 }
 
-$collectionId = $_GET['collId'];
+
 
 $sql2 = "
 SELECT newsarticle.id, newsarticle.pic, collection_table.$collectionId
@@ -62,7 +87,7 @@ $collectionNum = intVal(count($arr2[0])) -1;
 // prettyPrint($arr2);
 // prettyPrint($arr4);
 
-// prettyPrint($arr5);
+prettyPrint($arr5);
 
 // $counter = "
 // SELECT count(*) as total FROM collection_table 
@@ -94,12 +119,21 @@ $arr3[] = $row1;
 // print_r($count);
 $collectionTotal = count($arr5);
 
+$query4 = "SHOW COLUMNS FROM collection_table";
+$resultColumns = mysqli_query($conn,$query4);
+$arrayColumnName = array();
+while($row = mysqli_fetch_array($resultColumns)){
+    $arrayColumnName[] = $row['Field'];
+    // echo $row['Field']."<br>";
+}
+
+prettyPrint($arrayColumnName);
 // $countArr = array();
 for ($x = 1; $x <= $collectionNum; $x++) { 
     // echo $x;
     $counter = "
     SELECT count(*) as total FROM collection_table 
-    WHERE Collection".$x."=1;";
+    WHERE".$arrayColumnName[$x]."=1;";
     // echo $counter;
     $result10 = mysqli_query($conn, $counter);
     $row1 = mysqli_fetch_assoc($result10);
@@ -112,17 +146,19 @@ for ($x = 1; $x <= $collectionNum; $x++) {
     // $countArr[] = $result8;
 }
 
-// print_r($arr10);
+print_r($arr10);
 
 // prettyPrint($countArr);
 $limit = 0;
 
 
 
+$newSaved = $_GET['new[0]'];
 
-
-
-
+// $cars = $_POST['cars'];
+// foreach($newSaved as $car => $val):
+//     echo $val."<br>";
+// endforeach;
 
 
 
@@ -136,6 +172,14 @@ require_once("header.php");
 require_once("app.php"); 
 ?>
 
+<script src=
+"https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js">
+    </script>
+    <link rel="stylesheet" href="
+https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.3/themes/smoothness/jquery-ui.css" />
+    <script src="
+https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.3/jquery-ui.min.js">
+    </script>
 <!-- <i style="font-size: 16px; padding:8px; padding-top:16px; " class="fas fa-arrow-left"></i> -->
 
 
@@ -168,9 +212,11 @@ require_once("app.php");
     <div class="each_cont vertical_align" onclick="toLife()">
         <i style="font-size: 16px; padding:8px; " class="fas fa-edit"></i>
     </div>    
-    <div class="each_cont collection vertical_align" onclick="toLife()">
-        <i style="font-size: 16px; padding:8px; " class="fas fa-trash-alt"></i>
-    </div>  
+    <form method="post" id="deleteBtn" action="">
+        <div id="deleteColl" class="each_cont collection vertical_align" onclick="deleteCollection()">
+            <i style="font-size: 16px; padding:8px; " class="fas fa-trash-alt"></i>
+        </div>  
+    </form>
     <!-- <div class="each_cont vertical_align" onclick="toLife()">
             <i class="fas fa-music"></i>
             <span class="each_menu_title">Life</span>
@@ -195,13 +241,20 @@ require_once("app.php");
 </div>
 
 
+<script>
+     function deleteCollection(){
+            var c = confirm("Do you want to delete Collection?");
 
-
-
-<h2>Modal Example</h2>
-
-<!-- Trigger/Open The Modal -->
-<button id="myBtn">Open Modal</button>
+            if (c == true) {
+                var x = document.createElement("INPUT");
+                x.setAttribute("type", "hidden");
+                x.setAttribute("value", "D");
+                x.setAttribute("name", "deleteInput");
+                document.getElementById("deleteColl").appendChild(x);
+                document.getElementById("deleteBtn").submit();
+                } 
+        }
+</script>
 
 <!-- The Modal -->
 <div id="selectModal" class="modal">
@@ -213,7 +266,7 @@ require_once("app.php");
 
         <div style="display:flex;">
         <span style="display: block;" class="close">CLOSE</span>
-        <span style="display: block;"  class="submission">ADD</span>
+        <span style="display: block;" onclick="addNewForm()" class="submission">ADD</span>
     </div>
 
 
@@ -221,7 +274,8 @@ require_once("app.php");
 </div>
 
 
-
+<form id="newForm" action="">
+    <input name="collId" value="<?=$collectionId?>" type="hidden">
     <div style="padding: 16px;">
         <div style="margin-bottom: 4px;">
             <span>Collection Name</span>
@@ -235,7 +289,7 @@ require_once("app.php");
     <?php foreach($arr3 as $key => $val) { ?>
         <?php if($val[$collectionId]!=1){?>
             <div style="width: 32%;">
-                <input class="checkbox-round" style="position:absolute;" type="checkbox">
+                <input name="new[<?=$key?>]" value="<?=$val['id']?>" class="checkbox-round" style="position:absolute;" type="checkbox">
                 <img style="width: 100%;"class="each_article savedList collection" src="<?=$val['pic']?>" alt="" onclick="toArticlePg(<?=$val['id']?>)">
             </div>
             <?php } ?>
@@ -247,7 +301,7 @@ require_once("app.php");
     </div> -->
   </div>
 </div>
-
+</form>
 
 <script>
 // Get the modal
@@ -299,5 +353,11 @@ window.onclick = function(event) {
             const collectionNavBar = document.getElementById("collectionNavBar");
             collectionNavBar.style.display = "none";
         }
+
+        function addNewForm(){
+            document.getElementById("newForm").submit();
+        }
+
+       
     </script>
     
