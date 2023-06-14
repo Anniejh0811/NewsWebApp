@@ -16,7 +16,7 @@
             <i class="fas fa-users"></i>
             <span class="each_menu_title">Community</span>
         </div>
-        <div class="each_cont vertical_align">
+        <div class="each_cont vertical_align" onclick="toSaved()">
             <i class="fas fa-bookmark"></i>
             <span class="each_menu_title">Saved</span>
         </div>

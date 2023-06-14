@@ -28,4 +28,9 @@
   function collectionPg(id){
     window.location.assign('collection.php?collId='+id);
   }
+
+  function toSaved(){
+    window.location.assign('saved.php');
+  }
+  
 </script>

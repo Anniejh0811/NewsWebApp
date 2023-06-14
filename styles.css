@@ -735,7 +735,7 @@ height: 35px;
   }
 
   .navbar div.each_cont.collection{
-	width:25%;
+	width:20%;
   }
 
 
@@ -825,4 +825,34 @@ height: 35px;
 .checkbox-round:checked {
     background-color: #E9133E;
 	border: 1px solid #ddd;
+}
+
+
+.removeBox > span.cancel{
+	width:45%;	
+	text-align:center;	
+	box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+	display: block; 
+	padding: 14px 24px;;
+	 margin: 8px 0px; 
+	 margin-right: 8px; 
+	 font-family: Arima; 
+	 background-color: white; 
+	 border-radius: 4px;
+}
+
+.removeBox > span.remove{
+width:45%;
+text-align:center;	
+box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+display: block; 
+padding: 14px 24px;
+ margin: 8px 0px;  
+ font-family: Arima;
+  background-color: white; 
+  border-radius: 4px;
+}
+
+.removeBox{
+	display: flex; margin:8px;
 }
