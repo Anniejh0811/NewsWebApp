@@ -1,72 +1,31 @@
-<?php
 
-
-$conn = new mysqli("localhost","root","root","THENEWS","8889");
-$result = mysqli_query($conn, "SELECT * FROM articletopic");
-$result1 = mysqli_query($conn, "SELECT * FROM newsarticle");
-
-$breakingNews = FALSE;
-$todayVideo = TRUE;
-
-$arr = array();
-$topicArr = array();
-while ($row = mysqli_fetch_assoc($result)) {
-  $arr[] = $row;
-  $topicArr[] = $row['topicname'];
-}
-
-function prettyPrint($a) {
-  echo "<pre>";
-  print_r($a);
-  echo "</pre>";
-}
-
-if(!empty($_GET['id'])){
-  $todayVideo = FALSE;
-  $breakingNews = FALSE;
-  $id = $_GET['id'];
-  $sql = "
-    SELECT * FROM newsarticle
-    WHERE topic='$id';
-  ";
-  $result1 = mysqli_query($conn, $sql);
-  $arr1 = array();
-
-  while ($row1 = mysqli_fetch_assoc($result1)) {
-    $arr1[] = $row1;
-  }
-} else{
-  $breakingNews = TRUE;
-  $arr1 = array();
-  while ($row1 = mysqli_fetch_assoc($result1)) {
-    $arr1[] = $row1;
-  }
-}
-
-// prettyPrint($arr);
-// prettyPrint($arr1);
-// prettyPrint($topicArr);
-
+<?php 
+require_once("MV/C_home.php"); 
 require_once("header.php"); 
 require_once("app.php"); 
 ?>
+<script>
+  $( document ).ready(function() {
+    $(".fa-users").css("color","#d3d3d3");
+    $(".fa-bookmark").css("color","#d3d3d3");
+    $(".fa-music").css("color","#d3d3d3");
+    $(".fa-film").css("color","#d3d3d3");
+});
+</script>
 
-    <!-- menu  -->
       <!-- menu  -->
       <div class="menu_outerbox" >
         <?php
         foreach($arr as $key => $val) { ?>
-          <?php // if($val['topicname'] == "Today"){?>
             <?php if($id!=NULL && $val['topicname'] == $id){?>
-          <div class="vertical_align">
+          <div class="vertical_align circle">
             <div class="center">
-              <!-- <p>Today</p> -->
-              <img class="todayTopic" style="" src="<?=$val['link']?>" alt="" onclick="toHomePg()">
+              <img class="todayTopic" style="" src="<?=$val['link']?>" alt="" onclick="topic('<?=$val['topicname']?>')">
             </div>
             <span><?=$val['topicname']?></span>
           </div>
           <?php } else {?>
-          <div class="vertical_align" onclick="topic('<?=$val['topicname']?>')">
+          <div class="vertical_align circle" onclick="topic('<?=$val['topicname']?>')">
             <img src="<?=$val['link']?>" alt="">
             <span><?=$val['topicname']?></span>
           </div>
@@ -92,7 +51,7 @@ require_once("app.php");
 
       <!-- Today's Reels -->
       <?php if($todayVideo === TRUE){ ?>
-        <video src="ex1.mp4" type="video/mp4" controls></video>
+        <video src="Pictures/ex1.mp4" type="video/mp4" controls></video>
       <?php } ?>
 
       <!-- recommended news  -->

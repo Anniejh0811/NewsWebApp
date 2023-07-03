@@ -1,0 +1,138 @@
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+	
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+body {
+	line-height: 1;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+html{
+	background-color: rgb(249, 248, 248);
+}
+
+
+body{
+    margin: 0px auto !important; 
+	background-color: #faf5f6 !important; width:100%;
+	 /* max-width: 700px; */
+}
+
+/* .outline{
+	width: 480px;
+	margin: 0 auto;
+} */
+
+.menu_outerbox::-webkit-scrollbar { 
+    display: none;  /* Safari and Chrome */
+}
+
+main{
+	padding :8px;
+	margin: 8px;
+}	
+
+.logo{
+	font-family: engagement; color: #E9133E; font-size: 20px;
+}
+
+header{
+	/* height: 50px; */
+	padding :16px;
+	/* margin: 8px; */
+	box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+	/* box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; */
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	/* width: 100%; */
+	/* max-width: 481px; */
+}
+
+header i.icon{
+	font-size: 18px; color:#636363;
+}
+
+body {
+    background: white;
+}
+
+
+.sidenav {
+	font-family: Arima;
+	height: 100%;
+	width: 0;
+	position: fixed;
+	z-index: 1;
+	top: 0;
+	left: 0;
+	background-color: rgba(255, 255, 255, 0.962);
+	overflow-x: hidden;
+	transition: 0.5s;
+	/* padding-top: 60px; */
+  }
+
+  .adminEachBox{
+	padding:8px;
+  }
+
+  .adminEachBox > p {
+	font-family: Arima;
+	font-weight: bold;
+	margin-bottom: 4px;
+  }
+
+  .adminEachBox > p > input{
+	box-sizing: border-box;
+	width: 100%;
+	height: 38px;
+	font-size: 16px;;
+  }
+
+  .adminEachBox > p > textarea{
+	box-sizing: border-box;
+	width: 100%;
+	height: 80px;
+	font-size: 16px;;
+  }
+
+  .adminEachBox.adminCheckBox{
+display: flex;
+align-items: center;
+  }

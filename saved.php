@@ -1,119 +1,17 @@
 <?php
-
-
-$conn = new mysqli("localhost","root","root","THENEWS","8889");
-
-
-
-function prettyPrint($a) {
-  echo "<pre>";
-  print_r($a);
-  echo "</pre>";
-}
-
-
-
-
-$sql = "
-SELECT * FROM newsarticle
-WHERE saved=1;
-";
-
-
-    
-$result = mysqli_query($conn, $sql);
-$arr4 = array();
-while ($row1 = mysqli_fetch_assoc($result)) {
-$arr4[] = $row1;
-}
-
-
-$sql2 = "
-SELECT newsarticle.id, newsarticle.pic, collection_table.*
-FROM newsarticle
-LEFT JOIN collection_table
-ON newsarticle.id = collection_table.articleIdColl;
-";
-
-$result3 = mysqli_query($conn, $sql2);
-$arr5 = array();
-
-while ($row1 = mysqli_fetch_assoc($result3)) {
-$arr5[] = $row1;
-}
-
-
-$sql5 = "
-  SELECT * FROM collection_table;
-";
-
-$result1 = mysqli_query($conn, $sql5);
-$arr2 = array();
-while ($row1 = mysqli_fetch_assoc($result1)) {
-$arr2[] = $row1;
-}
-// print_r(count($arr2[0]));
-$collectionNum = intVal(count($arr2[0])) -1;
-// print_r($collectionNum);
-
-// prettyPrint($arr2);
-// prettyPrint($arr4);
-
-prettyPrint($arr5);
-
-// $counter = "
-// SELECT count(*) as total FROM collection_table 
-// WHERE Collection1=1;
-// ";
-
-// $result10 = mysqli_query($conn, $counter);
-// $arr10 = array();
-// $row1 = mysqli_fetch_assoc($result10);
-// $count = $row1['total'];
-
-// print_r($count);
-
-$query4 = "SHOW COLUMNS FROM collection_table";
-$resultColumns = mysqli_query($conn,$query4);
-$arrayColumnName = array();
-while($row = mysqli_fetch_array($resultColumns)){
-    $arrayColumnName[] = $row['Field'];
-    // echo $row['Field']."<br>";
-}
-
-// $countArr = array();
-for ($x = 1; $x <= $collectionNum; $x++) { 
-    // echo $x;
-    $counter = "
-    SELECT count(*) as total FROM collection_table 
-    WHERE ".$arrayColumnName[$x]."=1;";
-    // echo $arrayColumnName[$x];
-    $result10 = mysqli_query($conn, $counter);
-    $row1 = mysqli_fetch_assoc($result10);
-    $count = $row1['total'];
-    $arr10[] = $count;
-    // $row = mysql_fetch_assoc($result10);
-// $count = $row['count'];
-    // print_r($count);
-    //  print_r(mysqli_result($result8, 0));
-    // $countArr[] = $result8;
-}
-
-
-// var_dump($_POST);
-
-
-
-prettyPrint($arrayColumnName);
-    
-
-print_r($arr10);
-
-// prettyPrint($countArr);
-$limit = 0;
+require_once("MV/C_saved.php"); 
 require_once("header.php"); 
 require_once("app.php"); 
 ?>
+
+<script>
+  $( document ).ready(function() {
+    $(".fa-users").css("color","#d3d3d3");
+    $(".fa-home").css("color","#d3d3d3");
+    $(".fa-music").css("color","#d3d3d3");
+    $(".fa-film").css("color","#d3d3d3");
+});
+</script>
 
 <div style="margin: 8px;">
     <div style="text-align:right;">

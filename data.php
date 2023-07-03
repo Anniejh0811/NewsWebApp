@@ -84,8 +84,9 @@ $sql3 = "
 SELECT * FROM newsarticle WHERE topic='Lifestyle' ORDER BY created DESC ;
 ";
 
+// echo $_GET["term"];
 $sql4 = "
-SELECT DISTINCT newsarticle.sub_title FROM newsarticle WHERE topic='Lifestyle' AND newsarticle.sub_title LIKE '%".$_GET["term"]."%' ORDER BY newsarticle.sub_title ASC;
+SELECT subTitle_table.* FROM subTitle_table WHERE subTitle_table.subTitleName LIKE '%".$_GET["term"]."%';
 ";
 
 $result3 = mysqli_query($conn, $sql3);
@@ -93,19 +94,30 @@ $result4 = mysqli_query($conn, $sql4);
 
 $output = array();
 $arr4 = array();
+
+
 $temp_array = array();
-$temp_array['value'] = "<i class='fa-regular fa-star'></i> Editor's Pick";
-$output[]=$temp_array;
-$temp_array['value'] = "<i class='fa-regular fa-star'></i> New";
-$output[]=$temp_array;
+$temp_array['value'] = "Editor's Pick";
+$temp_array['label'] = 50;
+// $output[]=$temp_array;
+array_push($output, $temp_array); 
+$temp_array['value'] = "New";
+$temp_array['label'] = 51;
+array_push($output, $temp_array); 
+// $output[]=$temp_array;
+$id = 0;
 while ($row1 = mysqli_fetch_assoc($result4)) {
     // $arr4[] = $row1;
  
-    
-    $temp_array['value'] = $row1['sub_title'];
+ 
+    $temp_array['value'] = $row1['subTitleName'];
     // $temp_array['label'] = $row['sub_title'];
+    $temp_array['label'] = $row1['subTitleID'];
+    array_push($output, $temp_array); 
+    $id++;
 
-    $output[]=$temp_array;
+    // $output[]=$temp_array;
+
 }
 
 
